@@ -1,0 +1,4 @@
+django
+django-admin-interface
+psycopg2-binary
+requests
