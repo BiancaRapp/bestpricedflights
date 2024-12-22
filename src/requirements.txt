@@ -1,4 +1,6 @@
+celery[redis]
 django
 django-admin-interface
+django-celery-beat
 psycopg2-binary
 requests
