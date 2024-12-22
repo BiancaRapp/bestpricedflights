@@ -1,11 +1,21 @@
 import structlog
+from celery import shared_task
 from django.utils.timezone import now
+
+from flightsearch.celery import app
 
 from .choices import TravelClass, TripType
 from .models import City, Offer, Trip
 from .utils import find_destinations
 
 logger = structlog.get_logger(__name__)
+
+
+@app.task
+def collect_destinations_for_multiple_origins_task():
+    origin_codes = ("STR", "FRA", "MUC", "AMS", "CDG", "COP", "OSL", "BUD", "IST")
+    for origin_code in origin_codes:
+        fetch_and_store_destinations_task.delay(origin_code=origin_code)
 
 
 @shared_task
