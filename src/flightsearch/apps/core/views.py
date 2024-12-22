@@ -8,5 +8,5 @@ def search_flights(request, origin, travel_class=TravelClass.BUSINESS, trip_type
     response = find_destinations(origin, travel_class, trip_type)
     response.raise_for_status()
 
-    fetch_and_store_destinations_task.delay(origin_codes=(origin,))
+    fetch_and_store_destinations_task.delay(origin_code=origin)
     return JsonResponse(response.json())
