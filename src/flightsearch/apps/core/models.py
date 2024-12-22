@@ -35,7 +35,7 @@ class Trip(models.Model):
         )
 
     def __str__(self):
-        return f"{self.origin.code} – {self.destination.code} ({self.travel_class})"  # noqa: RUF001
+        return f"{self.origin.code} – {self.destination.code} ({self.get_travel_class_display()})"  # noqa: RUF001
 
 
 class Offer(models.Model):
@@ -49,4 +49,4 @@ class Offer(models.Model):
         constraints = (models.UniqueConstraint(fields=["trip", "month"], name="unique_offer"),)
 
     def __str__(self):
-        return f"{self.trip}: {self.price} ({self.month})"
+        return f"{self.trip}: {self.price} {self.trip.origin.currency} ({self.get_month_display()})"
