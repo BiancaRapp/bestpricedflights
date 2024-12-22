@@ -2,5 +2,6 @@ celery[redis]
 django
 django-admin-interface
 django-celery-beat
+django-structlog[celery]
 psycopg2-binary
 requests

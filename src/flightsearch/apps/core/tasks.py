@@ -1,9 +1,12 @@
+import structlog
 from celery import shared_task
 from django.utils.timezone import now
 
 from .choices import TravelClass, TripType
 from .models import City, Offer, Trip
 from .utils import find_destinations
+
+logger = structlog.get_logger(__name__)
 
 
 @shared_task
@@ -13,13 +16,13 @@ def fetch_and_store_destinations_task(
     for origin_code in origin_codes:
         response = find_destinations(origin_code, travel_class, trip_type)
         if not response.ok:
-            print(f"Failed fetching destinations for {origin_code}")
+            logger.error("Failed fetching destinations", extra={"origin_code": origin_code})
             continue
         json = response.json()
 
         destination_finder_offers = json.get("destinationFinderOffers")
         if len(destination_finder_offers) == 0:
-            print(f"No destination offers found for {origin_code}")
+            logger.warning("No destination offers found", extra={"origin_code": origin_code})
             continue
 
         origin_data = json.get("origin")
