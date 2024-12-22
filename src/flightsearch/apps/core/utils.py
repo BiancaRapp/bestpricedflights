@@ -18,6 +18,4 @@ def find_destinations(origin: str, travel_class=TravelClass.BUSINESS, trip_type=
         "X-Portal-Language": "de",
         "Content-Type": "application/json",
     }
-    response = requests.get(url, headers=headers, timeout=60)
-    response.raise_for_status()
-    return response.json()
+    return requests.get(url, headers=headers, timeout=60)
