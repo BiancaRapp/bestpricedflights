@@ -193,7 +193,7 @@ LOGGING = {
         # Make sure to replace the following logger's name for yours
         "flightsearch": {
             "handlers": ["console"],
-            "level": "INFO",
+            "level": "DEBUG" if DEBUG else "INFO",
         },
     },
 }

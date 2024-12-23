@@ -15,7 +15,7 @@ logger = structlog.get_logger(__name__)
 
 @app.task
 def collect_destinations_for_multiple_origins_task():
-    origin_codes = ("STR", "FRA", "MUC", "AMS", "CDG", "COP", "OSL", "BUD", "IST")
+    origin_codes = ("STR", "FRA", "MUC", "AMS", "PAR", "COP", "OSL", "BUD", "IST")
     for origin_code in origin_codes:
         fetch_and_store_destinations_task.delay(origin_code=origin_code)
 
