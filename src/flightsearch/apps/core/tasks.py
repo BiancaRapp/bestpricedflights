@@ -1,6 +1,8 @@
 import structlog
 from celery import shared_task
+from django.db.models import Q
 from django.utils.timezone import now
+from djmoney.money import Money
 
 from flightsearch.celery import app
 
@@ -30,6 +32,7 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
         return
     json = response.json()
 
+    logger.debug("Fetch destination offers", extra={"origin_code"})
     destination_finder_offers = json.get("destinationFinderOffers")
     if len(destination_finder_offers) == 0:
         logger.warning("No destination offers found", extra={"origin_code": origin_code})
@@ -42,9 +45,11 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
             "name": origin_data.get("cityName"),
             "longitude": origin_data.get("cityLongitude"),
             "latitude": origin_data.get("cityLatitude"),
-            "currency": json.get("currencyInfo").get("currency"),
+            "is_origin": True,
         },
     )
+    currency = json.get("currencyInfo", {}).get("currency")
+
     for destination_data in destination_finder_offers:
         destination, _ = City.objects.update_or_create(
             code=destination_data.get("city"),
@@ -53,6 +58,7 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
                 "region": destination_data.get("cityRegion"),
                 "longitude": destination_data.get("cityLongitude"),
                 "latitude": destination_data.get("cityLatitude"),
+                "is_destination": True,
             },
         )
         trip, _ = Trip.objects.update_or_create(
@@ -67,8 +73,8 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
                 trip=trip,
                 month=int(offer_data.get("month")),
                 defaults={
-                    "price": offer_data.get("price"),
+                    "price": Money(offer_data.get("price"), currency=currency),
                     "stopovers": offer_data.get("numberOfStopovers", 0),
                 },
             )
-    Trip.objects.exclude(fetched_on=today).update(is_archived=True)
+    Trip.objects.exclude(Q(fetched_on=today) | ~Q(travel_class=travel_class, trip_type=trip_type)).delete()

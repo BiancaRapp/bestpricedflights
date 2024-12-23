@@ -47,6 +47,7 @@ services:
       - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
+      - OPEN_EXCHANGE_RATES_APP_ID=<YOUR_KEY>
 
   celery-beat:
     build:
