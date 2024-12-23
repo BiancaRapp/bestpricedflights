@@ -5,4 +5,5 @@ django-celery-beat
 django-money[exchange]
 django-structlog[celery]
 psycopg2-binary
+python-dotenv
 requests

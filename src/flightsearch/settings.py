@@ -14,19 +14,22 @@ import os
 from pathlib import Path
 
 import structlog
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / "../../.env")  # here you indicate where your .env file is
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-p97mx(+u&2)t23pjfg8t=$rgnb2%)h^mxg(muk39=z_7gs+q#u"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
 ALLOWED_HOSTS = []
 
@@ -65,11 +68,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "flightsearch.urls"
 
+default_loaders = [
+    "django.template.loaders.filesystem.Loader",
+    "django.template.loaders.app_directories.Loader",
+]
+
+cached_loaders = [("django.template.loaders.cached.Loader", default_loaders)]
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -77,6 +85,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "loaders": default_loaders if DEBUG else cached_loaders,
         },
     },
 ]
@@ -90,9 +99,9 @@ WSGI_APPLICATION = "flightsearch.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django_db",
-        "USER": "django",
-        "PASSWORD": "django",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": "db",
         "PORT": 5432,
     }
@@ -143,7 +152,7 @@ STATIC_ROOT = BASE_DIR / "static"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery settings
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
