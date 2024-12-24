@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Bestpreisübersicht{% endblock %}
+
+{% block content %}
+    <h1>Bestpreisübersicht</h1>
+    <table id="destination_list" class="display">
+        <thead>
+        <tr>
+            <th>Start</th>
+            <th>Ziel</th>
+            <th>Preis</th>
+            <th>Monat</th>
+            <th>Umstiege</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for offer in object_list %}
+            <tr>
+                <td>{{ offer.trip.origin }}</td>
+                <td>{{ offer.trip.destination }}</td>
+                <td>{{ offer.get_price_eur }}</td>
+                <td>{{ offer.month }}</td>
+                <td>{{ offer.stopovers }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
