@@ -2,6 +2,7 @@ celery[redis]
 django
 django-admin-interface
 django-celery-beat
+django-debug-toolbar
 django-money[exchange]
 django-structlog[celery]
 psycopg2-binary
