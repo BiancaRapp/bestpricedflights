@@ -24,7 +24,7 @@
                 <td>{{ trip.destination.country }}</td>
                 {% with trip.offers|pk:trip.best_price_offer_id as offer %}
                     {% if offer %}
-                        <td>{{ offer.get_price_eur }}</td>
+                        <td>{{ offer.price_in_eur }}</td>
                         <td>{{ offer.get_month_display }}</td>
                         <td>{{ offer.stopovers }}</td>
                     {% endif %}

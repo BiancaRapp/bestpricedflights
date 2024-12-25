@@ -29,7 +29,7 @@ class TripAdmin(admin.ModelAdmin):
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ("trip", "price", "stopovers", "month", "is_archived")
+    list_display = ("trip", "price", "price_in_eur", "stopovers", "month", "is_archived")
     list_filter = (
         ("trip__origin", admin.RelatedOnlyFieldListFilter),
         ("trip__destination", admin.RelatedOnlyFieldListFilter),

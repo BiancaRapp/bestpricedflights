@@ -2,6 +2,8 @@ import structlog
 from celery import shared_task
 from django.db.models import Q
 from django.utils.timezone import now
+from djmoney.contrib.exchange.exceptions import MissingRate
+from djmoney.contrib.exchange.models import convert_money
 from djmoney.money import Money
 
 from flightsearch.celery import app
@@ -72,11 +74,14 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
         )
         trip.offers.update(is_archived=True)
         for offer_data in destination_data.get("monthOffers"):
+            price = Money(offer_data.get("price"), currency=currency)
+            price_in_eur = get_price_in_eur(price)
             Offer.objects.create(
                 trip=trip,
                 month=int(offer_data.get("month")),
-                price=Money(offer_data.get("price"), currency=currency),
+                price=price,
                 stopovers=offer_data.get("numberOfStopovers", 0),
+                price_in_eur=price_in_eur,
             )
 
     # Archive trips and related offers with destinations not available anymore
@@ -86,3 +91,15 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
 
     Offer.objects.filter(trip__in=trips_to_archive).update(is_archived=True)
     trips_to_archive.update(is_archived=True)
+
+
+def get_price_in_eur(price):
+    if price.currency != "EUR":
+        try:
+            usd = convert_money(price, "USD")
+            return convert_money(usd, "EUR")
+        except MissingRate as e:
+            logger.debug("Failed to convert price", price=price, extra={"exception": e})
+            logger.exception("Failed to convert price", price=price, extra={"exception": e})
+            return None
+    return price
