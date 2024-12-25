@@ -35,6 +35,7 @@ class Trip(models.Model):
     destination = models.ForeignKey(City, related_name="flights_to", on_delete=models.CASCADE)
     travel_class = models.CharField(choices=TravelClass, default=TravelClass.BUSINESS)
     trip_type = models.CharField(choices=TripType, default=TripType.RETURN)
+    is_archived = models.BooleanField(default=False)
 
     class Meta:
         constraints = (
@@ -49,14 +50,15 @@ class Trip(models.Model):
 
 
 class Offer(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     month = models.IntegerField(choices=Month)
     price = MoneyField(max_digits=12, decimal_places=2, default_currency="EUR")
     stopovers = models.IntegerField(default=0)
     trip = models.ForeignKey(Trip, related_name="offers", on_delete=models.CASCADE)
+    is_archived = models.BooleanField(default=False)
 
     class Meta:
-        constraints = (models.UniqueConstraint(fields=["trip", "month"], name="unique_offer"),)
         ordering = ("trip", "price", "month")
 
     def __str__(self):

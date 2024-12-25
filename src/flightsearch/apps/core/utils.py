@@ -1,9 +1,18 @@
 import requests
+import structlog
 
 from .choices import TravelClass, TripType
 
+logger = structlog.get_logger(__name__)
+
 
 def find_destinations(origin: str, travel_class=TravelClass.BUSINESS, trip_type=TripType.RETURN):
+    logger.debug(
+        "Fetching destinations from lufthansa API",
+        origin=origin,
+        travel_class=travel_class,
+        trip_type=trip_type,
+    )
     url = f"https://www.lufthansa.com/service/secured/api/bestprice/destination/finder/{origin}/{travel_class.value}?tripType={trip_type.value}"
 
     headers = {

@@ -27,7 +27,7 @@ class DestinationListView(ListView):
         destination_code = self.kwargs.get("destination")
         if destination_code:
             logger.debug("Filter list for destination", destination=destination_code)
-            offers = offers.filter(trip__destination__code=destination_code)
+            offers = offers.filter(trip__destination__code=destination_code, trip__is_archived=False)
         return offers.select_related("trip")
 
 
@@ -39,7 +39,7 @@ class TripListView(ListView):
         # Subquery to get the ID of the offer with the minimum price
         min_price_offer_id = Offer.objects.filter(trip=OuterRef("pk")).order_by("price").values("id")[:1]
 
-        trips = Trip.objects.annotate(
+        trips = Trip.objects.filter(is_archived=False).annotate(
             best_price_offer_id=Subquery(min_price_offer_id),
         )
         return trips.select_related("origin", "destination")

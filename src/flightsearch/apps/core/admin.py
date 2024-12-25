@@ -12,8 +12,12 @@ class CityAdmin(admin.ModelAdmin):
 
 @admin.register(Trip)
 class TripAdmin(admin.ModelAdmin):
-    list_display = ("origin", "destination", "travel_class", "trip_type", "fetched_on")
-    list_filter = (("origin", admin.RelatedOnlyFieldListFilter), ("destination", admin.RelatedOnlyFieldListFilter))
+    list_display = ("origin", "destination", "travel_class", "trip_type", "fetched_on", "is_archived")
+    list_filter = (
+        ("origin", admin.RelatedOnlyFieldListFilter),
+        ("destination", admin.RelatedOnlyFieldListFilter),
+        "is_archived",
+    )
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "origin":
@@ -25,10 +29,11 @@ class TripAdmin(admin.ModelAdmin):
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ("trip", "price", "stopovers", "month")
+    list_display = ("trip", "price", "stopovers", "month", "is_archived")
     list_filter = (
         ("trip__origin", admin.RelatedOnlyFieldListFilter),
         ("trip__destination", admin.RelatedOnlyFieldListFilter),
         "stopovers",
         "month",
+        "is_archived",
     )
