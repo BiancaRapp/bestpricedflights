@@ -16,6 +16,7 @@ class City(models.Model):
     code = models.CharField(max_length=3, unique=True)
     name = models.CharField(max_length=255)
     region = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
     is_origin = models.BooleanField(default=False)

@@ -57,6 +57,7 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
             defaults={
                 "name": destination_data.get("cityName"),
                 "region": destination_data.get("cityRegion"),
+                "country": destination_data.get("countryName"),
                 "longitude": destination_data.get("cityLongitude"),
                 "latitude": destination_data.get("cityLatitude"),
                 "is_destination": True,

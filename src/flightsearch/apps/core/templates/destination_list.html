@@ -9,6 +9,7 @@
         <tr>
             <th class="select">Start</th>
             <th class="select">Ziel</th>
+            <th class="select">Zielland</th>
             <th>Preis</th>
             <th class="select">Monat</th>
             <th class="select">Umstiege</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ offer.trip.origin }}</td>
                 <td>{{ offer.trip.destination }}</td>
+                <td>{{ offer.trip.destination.country }}</td>
                 <td>{{ offer.get_price_eur }}</td>
                 <td>{{ offer.get_month_display }}</td>
                 <td>{{ offer.stopovers }}</td>
@@ -29,6 +31,7 @@
 
         <tfoot>
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>

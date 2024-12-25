@@ -6,8 +6,8 @@ from .models import City, Offer, Trip
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     search_fields = ("code", "name")
-    list_display = ("code", "name", "region")
-    list_filter = ("region", "is_origin", "is_destination")
+    list_display = ("code", "name", "country", "region")
+    list_filter = ("country", "region", "is_origin", "is_destination")
 
 
 @admin.register(Trip)
