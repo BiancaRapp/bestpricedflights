@@ -9,7 +9,35 @@
     <script src="{% static 'vendor/data_tables/datatables-2.1.8.min.js' %}"></script>
     <script>
         addEventListener("DOMContentLoaded", ()=>{
-            $('#destination_list').DataTable();
+            $('#destination_list').DataTable({
+                initComplete: function () {
+                    this.api()
+                        .columns('.select')
+                        .every(function () {
+                            const column = this;
+
+                            // Create select element and listener
+                            const select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    column
+                                        .search($(this).val(), {exact: true})
+                                        .draw();
+                                });
+
+                            // Add list of options
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function (d, j) {
+                                    select.append(
+                                        '<option value="' + d + '">' + d + '</option>'
+                                    );
+                                });
+                        });
+                }
+            });
         })
     </script>
 </head>

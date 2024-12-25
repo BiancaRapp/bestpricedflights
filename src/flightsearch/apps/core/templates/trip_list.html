@@ -8,10 +8,10 @@
     <table id="destination_list" class="display">
         <thead>
         <tr>
-            <th>Start</th>
-            <th>Ziel</th>
+            <th class="select">Start</th>
+            <th class="select">Ziel</th>
             <th>Bester Preis</th>
-            <th>Monat</th>
+            <th class="select">Monat</th>
         </tr>
         </thead>
         <tbody>
@@ -28,5 +28,14 @@
             </tr>
         {% endfor %}
         </tbody>
+
+        <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </tfoot>
     </table>
 {% endblock %}

@@ -7,23 +7,34 @@
     <table id="destination_list" class="display">
         <thead>
         <tr>
-            <th>Start</th>
-            <th>Ziel</th>
+            <th class="select">Start</th>
+            <th class="select">Ziel</th>
             <th>Preis</th>
-            <th>Monat</th>
-            <th>Umstiege</th>
+            <th class="select">Monat</th>
+            <th class="select">Umstiege</th>
         </tr>
         </thead>
+
         <tbody>
         {% for offer in object_list %}
             <tr>
                 <td>{{ offer.trip.origin }}</td>
                 <td>{{ offer.trip.destination }}</td>
                 <td>{{ offer.get_price_eur }}</td>
-                <td>{{ offer.month }}</td>
+                <td>{{ offer.get_month_display }}</td>
                 <td>{{ offer.stopovers }}</td>
             </tr>
         {% endfor %}
         </tbody>
+
+        <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </tfoot>
     </table>
 {% endblock %}
