@@ -1,5 +1,5 @@
 import structlog
-from django.db.models import OuterRef, Subquery
+from django.db.models import F, Min, Prefetch
 from django.http import JsonResponse
 from django.views.generic import ListView
 
@@ -36,12 +36,14 @@ class TripListView(ListView):
     model = Trip
 
     def get_queryset(self):
-        # Subquery to get the ID of the offer with the minimum price
-        min_price_offer_id = (
-            Offer.objects.filter(trip=OuterRef("pk"), is_archived=False).order_by("price").values("id")[:1]
+        trips = Trip.objects.filter(is_archived=False)
+
+        best_price_offers = (
+            Offer.objects.filter(is_archived=False)
+            .annotate(min_price=Min("trip__offers__price_in_eur"))
+            .filter(price_in_eur=F("min_price"))
         )
 
-        trips = Trip.objects.filter(is_archived=False).annotate(
-            best_price_offer_id=Subquery(min_price_offer_id),
+        return trips.select_related("origin", "destination").prefetch_related(
+            Prefetch("offers", queryset=best_price_offers, to_attr="best_price_offers"),
         )
-        return trips.select_related("origin", "destination").prefetch_related("offers")

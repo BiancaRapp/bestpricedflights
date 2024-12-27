@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load core_extras %}
 
 {% block title %}Bestpreisübersicht{% endblock %}
 
@@ -18,18 +17,16 @@
         </thead>
         <tbody>
         {% for trip in object_list %}
-            <tr>
-                <td>{{ trip.origin }}</td>
-                <td>{{ trip.destination }}</td>
-                <td>{{ trip.destination.country }}</td>
-                {% with trip.offers|pk:trip.best_price_offer_id as offer %}
-                    {% if offer %}
-                        <td>{{ offer.price_in_eur }}</td>
-                        <td>{{ offer.get_month_display }}</td>
-                        <td>{{ offer.stopovers }}</td>
-                    {% endif %}
-                {% endwith %}
-            </tr>
+            {% for offer in trip.best_price_offers %}
+                <tr>
+                    <td>{{ trip.origin }}</td>
+                    <td>{{ trip.destination }}</td>
+                    <td>{{ trip.destination.country }}</td>
+                    <td>{{ offer.price_in_eur }}</td>
+                    <td>{{ offer.get_month_display }}</td>
+                    <td>{{ offer.stopovers }}</td>
+                </tr>
+            {% endfor %}
         {% endfor %}
         </tbody>
 
