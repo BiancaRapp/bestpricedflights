@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load core_extras %}
 
 {% block title %}Bestpreisübersicht{% endblock %}
 
@@ -10,6 +11,7 @@
             <th class="select">Start</th>
             <th class="select">Ziel</th>
             <th class="select">Zielland</th>
+            <th>Median</th>
             <th>Bester Preis</th>
             <th class="select">Monat</th>
             <th class="select">Umstiege</th>
@@ -22,8 +24,9 @@
                     <td>{{ trip.origin }}</td>
                     <td>{{ trip.destination }}</td>
                     <td>{{ trip.destination.country }}</td>
-                    <td>{{ offer.price_in_eur }}</td>
-                    <td>{{ offer.get_month_display }}</td>
+                    <td data-order="{{ offer.median.amount }}">{{ offer.median }}</td>
+                    <td data-order="{{ offer.price_in_eur.amount }}">{{ offer.price_in_eur }}</td>
+                    <td data-order="{{ offer.month }}">{{ offer.get_month_display }}</td>
                     <td>{{ offer.stopovers }}</td>
                 </tr>
             {% endfor %}

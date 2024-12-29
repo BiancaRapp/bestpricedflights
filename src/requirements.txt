@@ -8,3 +8,4 @@ django-structlog[celery]
 psycopg2-binary
 python-dotenv
 requests
+tailslide

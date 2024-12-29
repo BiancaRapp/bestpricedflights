@@ -3,10 +3,16 @@ import uuid
 import structlog
 from django.db import models
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 from .choices import Month, TravelClass, TripType
 
 logger = structlog.getLogger(__name__)
+
+
+class MoneyOutputField(MoneyField):
+    def from_db_value(self, value, expression, connection):  # noqa: ARG002
+        return Money(value, "EUR") if value else None
 
 
 class City(models.Model):

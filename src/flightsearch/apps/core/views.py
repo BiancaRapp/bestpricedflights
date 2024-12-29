@@ -2,8 +2,9 @@ import structlog
 from django.db.models import F, Min, Prefetch
 from django.http import JsonResponse
 from django.views.generic import ListView
+from tailslide import Median
 
-from .models import Offer, Trip
+from .models import MoneyOutputField, Offer, Trip
 from .tasks import fetch_and_store_destinations_task
 from .utils import TravelClass, TripType, find_destinations
 
@@ -39,9 +40,10 @@ class TripListView(ListView):
         trips = Trip.objects.filter(is_archived=False)
 
         best_price_offers = (
-            Offer.objects.filter(is_archived=False)
+            Offer.objects.annotate(median=Median("trip__offers__price_in_eur", output_field=MoneyOutputField()))
+            .filter(is_archived=False)
             .annotate(min_price=Min("trip__offers__price_in_eur"))
-            .filter(price_in_eur=F("min_price"))
+            .filter(price_in_eur=F("min_price"), price_in_eur__lte=F("median"))
         )
 
         return trips.select_related("origin", "destination").prefetch_related(
