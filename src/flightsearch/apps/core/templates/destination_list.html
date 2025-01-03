@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Bestpreisübersicht{% endblock %}
+{% block title %}Preisübersicht{% endblock %}
 
 {% block content %}
-    <h1>Bestpreisübersicht</h1>
+    <h1>Preisübersicht</h1>
     <table id="destination_list" class="display">
         <thead>
         <tr>
@@ -22,8 +22,8 @@
                 <td>{{ offer.trip.origin }}</td>
                 <td>{{ offer.trip.destination }}</td>
                 <td>{{ offer.trip.destination.country }}</td>
-                <td>{{ offer.price_in_eur }}</td>
-                <td>{{ offer.get_month_display }}</td>
+                <td data-order="{{ offer.price_in_eur.amount }}">{{ offer.price_in_eur }}</td>
+                <td data-order="{{ offer.month }}">{{ offer.get_month_display }}</td>
                 <td>{{ offer.stopovers }}</td>
             </tr>
         {% endfor %}

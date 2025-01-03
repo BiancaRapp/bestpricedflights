@@ -8,8 +8,9 @@
     <script src="{% static 'vendor/jquery/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'vendor/data_tables/datatables-2.1.8.min.js' %}"></script>
     <script>
-        addEventListener("DOMContentLoaded", ()=>{
-            $('#destination_list').DataTable({
+        addEventListener("DOMContentLoaded", () => {
+            $('table.display').DataTable({
+                displayLength: 25,
                 initComplete: function () {
                     this.api()
                         .columns('.select')

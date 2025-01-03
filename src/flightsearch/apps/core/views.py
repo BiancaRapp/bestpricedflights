@@ -24,12 +24,12 @@ class DestinationListView(ListView):
     model = Offer
 
     def get_queryset(self):
-        offers = Offer.objects.filter(trip__is_archived=False)
         destination_code = self.kwargs.get("destination")
-        if destination_code:
-            logger.debug("Filter list for destination", destination=destination_code)
-            offers = offers.filter(trip__destination__code=destination_code)
-        return offers.select_related("trip").prefetch_related("trip__origin", "trip__destination")
+        return (
+            Offer.objects.filter(trip__is_archived=False, is_archived=False, trip__destination__code=destination_code)
+            .select_related("trip")
+            .prefetch_related("trip__origin", "trip__destination")
+        )
 
 
 class TripListView(ListView):
