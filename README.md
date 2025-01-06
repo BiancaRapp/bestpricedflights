@@ -6,7 +6,9 @@
 
 The program fetches destination offers from lufthansa for different origins in europe for business class return flights. 
 The user can list the best price offers over all months and is able to filter the offers for a destination or country on <http://localhost:8000/list/trips/>.
-When visiting `http://localhost:8000/list/destinations/<CODE>`, it displays a list of all offers for a specific destination <CODE>.
+When visiting `http://localhost:8000/list/destinations/<CODE>`, it displays a list of all offers for a specific destination `CODE`.
+When visiting `http://localhost:8000/list/destinations/country/<CODE>`, it displays a list of all offers for a specific destination country `CODE`.
+From the Home Page `http://localhost:8000`, you get a list of all links for each destination country and city.
 
 
 ### Motivation
@@ -51,6 +53,11 @@ docker compose up
 To update vendor resources call:
 ```shell
 docker compose exec app django-admin collectstatic --no-input
+```
+
+To visit the admin backend at <http://localhost:8000/admin>, you need to create a new superuser:
+```shell
+docker compose exec app django-admin createsuperuser
 ```
 
 To run tests:
