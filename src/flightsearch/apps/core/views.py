@@ -1,5 +1,5 @@
 import structlog
-from django.db.models import F, Min, Prefetch
+from django.db.models import F, Min, OuterRef, Prefetch, Q, Subquery
 from django.http import JsonResponse
 from django.views.generic import ListView
 from tailslide import Median
@@ -25,10 +25,33 @@ class DestinationListView(ListView):
 
     def get_queryset(self):
         destination_code = self.kwargs.get("destination")
+        destination_country_code = self.kwargs.get("destination_country")
+        offer_filter = Q(trip__is_archived=False, is_archived=False)
+        if destination_country_code:
+            offer_filter &= Q(trip__destination__country__code=destination_country_code)
+        elif destination_code:
+            offer_filter &= Q(trip__destination__code=destination_code)
+
+        # calculate median price over all entries with same destination in same month
+        offers_by_destination_and_month = (
+            Offer.objects.filter(
+                month=OuterRef("month"),
+                trip__destination__code=OuterRef("trip__destination__code"),
+                trip__trip_type=OuterRef("trip__trip_type"),
+                trip__travel_class=OuterRef("trip__travel_class"),
+                price_in_eur__isnull=False,
+            )
+            .values("month", "trip__destination__code")
+            .annotate(median_price=Median("price_in_eur", output_field=MoneyOutputField()))
+        )
+
         return (
-            Offer.objects.filter(trip__is_archived=False, is_archived=False, trip__destination__code=destination_code)
+            Offer.objects.filter(offer_filter)
             .select_related("trip")
-            .prefetch_related("trip__origin", "trip__destination")
+            .prefetch_related("trip__origin", "trip__destination", "trip__destination__country")
+            .annotate(
+                median=Subquery(offers_by_destination_and_month.values("median_price")[:1]),
+            )
         )
 
 

@@ -39,6 +39,7 @@ class OfferAdmin(admin.ModelAdmin):
     list_filter = (
         ("trip__origin", admin.RelatedOnlyFieldListFilter),
         ("trip__destination", admin.RelatedOnlyFieldListFilter),
+        ("trip__destination__country", admin.RelatedOnlyFieldListFilter),
         "stopovers",
         "month",
         "is_archived",

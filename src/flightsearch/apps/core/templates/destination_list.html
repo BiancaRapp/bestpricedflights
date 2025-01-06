@@ -11,6 +11,7 @@
             <th class="select">Ziel</th>
             <th class="select">Zielland</th>
             <th>Preis</th>
+            <th>Median</th>
             <th class="select">Monat</th>
             <th class="select">Umstiege</th>
         </tr>
@@ -23,6 +24,7 @@
                 <td>{{ offer.trip.destination }}</td>
                 <td>{{ offer.trip.destination.country }}</td>
                 <td data-order="{{ offer.price_in_eur.amount }}">{{ offer.price_in_eur }}</td>
+                <td data-order="{{ offer.median.amount }}">{{ offer.median }}</td>
                 <td data-order="{{ offer.month }}">{{ offer.get_month_display }}</td>
                 <td>{{ offer.stopovers }}</td>
             </tr>
