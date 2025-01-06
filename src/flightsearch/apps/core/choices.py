@@ -14,15 +14,15 @@ class TripType(models.TextChoices):
 
 
 class Month(models.IntegerChoices):
-    JANUARY = 1, "Januar"
-    FEBRUARY = 2, "Februar"
-    MARCH = 3, "März"
+    JANUARY = 1, "January"
+    FEBRUARY = 2, "February"
+    MARCH = 3, "March"
     APRIL = 4, "April"
-    MAY = 5, "Mai"
-    JUNE = 6, "Juni"
-    JULY = 7, "Juli"
+    MAY = 5, "May"
+    JUNE = 6, "June"
+    JULY = 7, "July"
     AUGUST = 8, "August"
     SEPTEMBER = 9, "September"
-    OCTOBER = 10, "Oktober"
+    OCTOBER = 10, "October"
     NOVEMBER = 11, "November"
-    DECEMBER = 12, "Dezember"
+    DECEMBER = 12, "December"

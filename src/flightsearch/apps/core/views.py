@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.generic import ListView, TemplateView
 from tailslide import Median
 
-from .models import City, MoneyOutputField, Offer, Trip
+from .models import City, Country, MoneyOutputField, Offer, Trip
 from .tasks import fetch_and_store_destinations_task
 from .utils import TravelClass, TripType, find_destinations
 
@@ -35,6 +35,21 @@ class HomeView(TemplateView):
 class DestinationListView(ListView):
     template_name = "destination_list.html"
     model = Offer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        destination_code = self.kwargs.get("destination")
+        destination_country_code = self.kwargs.get("destination_country")
+        destination = (
+            City.objects.filter(code=destination_code).first()
+            if destination_code
+            else Country.objects.filter(code=destination_country_code).first()
+            if destination_country_code
+            else None
+        )
+        context.update({"destination": destination})
+        return context
 
     def get_queryset(self):
         destination_code = self.kwargs.get("destination")

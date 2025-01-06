@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Startseite{% endblock %}
+{% block title %}Home Page{% endblock %}
 
 {% block content %}
-    <h1>Startseite</h1>
+    <h1>Home Page</h1>
 
-    <h2>Liste der Flugangebote der verschiedenen Ziele</h2>
+    <h2>List of offers per region or country</h2>
 
     {% regroup destinations by region as region_list %}
     {% for region in region_list %}
@@ -19,7 +19,7 @@
                         {% if country.grouper.code %}
                             <a href="{% url 'offers_by_destination_country' country.grouper.code %}">{{ country.grouper }}</a>
                         {% else %}
-                            {{ country.grouper }}
+                            {{ country.grouper | default_if_none:'Unknown' }}
                         {% endif %}
                     </summary>
                     <ul>

@@ -1,21 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Preisübersicht{% endblock %}
+{% block title %}Offer overview{% endblock %}
 
 {% block content %}
-    <h1>Preisübersicht</h1>
+    <h1>Offer overview for {{ destination }}</h1>
+    <p>
+        The Median is calculated based on the prices of all stored offers for the same destination city, month, travel class and trip type.
+    </p>
     <table id="destination_list" class="display" data-order='[[3, "asc"], [5, "asc"]]'>
         <thead>
         <tr>
-            <th class="select">Start</th>
-            <th class="select">Ziel</th>
-            <th class="select">Zielland</th>
-            <th>Preis</th>
+            <th class="select">Origin</th>
+            <th class="select">Destination</th>
+            <th class="select">Destination Country</th>
+            <th>Price</th>
             <th>Median</th>
-            <th class="select">Monat</th>
-            <th class="select">Umstiege</th>
-            <th class="select">Reiseklasse</th>
-            <th class="select">Typ</th>
+            <th class="select">Month</th>
+            <th class="select">Stopovers</th>
+            <th class="select">Travel Class</th>
+            <th class="select">Trip Type</th>
         </tr>
         </thead>
 
