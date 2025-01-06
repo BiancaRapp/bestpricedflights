@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import City, Offer, Trip
+from .models import City, Country, Offer, Trip
+
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    search_fields = ("code", "name")
+    list_display = ("code", "name")
 
 
 @admin.register(City)

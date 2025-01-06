@@ -6,14 +6,14 @@ from .choices import TravelClass, TripType
 logger = structlog.get_logger(__name__)
 
 
-def find_destinations(origin: str, travel_class=TravelClass.BUSINESS, trip_type=TripType.RETURN):
+def find_destinations(origin: str, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value):
     logger.debug(
         "Fetching destinations from lufthansa API",
         origin=origin,
         travel_class=travel_class,
         trip_type=trip_type,
     )
-    url = f"https://www.lufthansa.com/service/secured/api/bestprice/destination/finder/{origin}/{travel_class.value}?tripType={trip_type.value}"
+    url = f"https://www.lufthansa.com/service/secured/api/bestprice/destination/finder/{origin}/{travel_class}?tripType={trip_type}"
 
     headers = {
         "User-Agent": (

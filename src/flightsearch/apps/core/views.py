@@ -11,7 +11,7 @@ from .utils import TravelClass, TripType, find_destinations
 logger = structlog.get_logger(__name__)
 
 
-def search_flights(request, origin, travel_class=TravelClass.BUSINESS, trip_type=TripType.RETURN):  # noqa: ARG001
+def search_flights(request, origin, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value):  # noqa: ARG001
     response = find_destinations(origin, travel_class, trip_type)
     response.raise_for_status()
 
@@ -46,6 +46,6 @@ class TripListView(ListView):
             .filter(price_in_eur=F("min_price"), price_in_eur__lte=F("median"))
         )
 
-        return trips.select_related("origin", "destination").prefetch_related(
+        return trips.select_related("origin", "destination", "destination__country").prefetch_related(
             Prefetch("offers", queryset=best_price_offers, to_attr="best_price_offers"),
         )

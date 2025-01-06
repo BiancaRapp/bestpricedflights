@@ -9,7 +9,7 @@ from djmoney.money import Money
 from flightsearch.celery import app
 
 from .choices import TravelClass, TripType
-from .models import City, Offer, Trip
+from .models import City, Country, Offer, Trip
 from .utils import find_destinations
 
 logger = structlog.get_logger(__name__)
@@ -19,11 +19,13 @@ logger = structlog.get_logger(__name__)
 def collect_destinations_for_multiple_origins_task():
     origin_codes = ("STR", "FRA", "MUC", "AMS", "PAR", "COP", "OSL", "BUD", "IST", "SOF")
     for origin_code in origin_codes:
-        fetch_and_store_destinations_task.delay(origin_code=origin_code)
+        fetch_and_store_destinations_task.delay(origin_code=origin_code, travel_class=TravelClass.BUSINESS)
 
 
 @shared_task
-def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass.BUSINESS, trip_type=TripType.RETURN):
+def fetch_and_store_destinations_task(
+    origin_code: str, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value
+):
     today = now().date()
 
     response = find_destinations(origin_code, travel_class, trip_type)
@@ -35,10 +37,12 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
         return
     json = response.json()
 
-    logger.debug("Fetch destination offers", extra={"origin_code"})
+    logger.debug("Fetch destination offers", origin_code=origin_code, travel_class=travel_class, trip_type=trip_type)
     destination_finder_offers = json.get("destinationFinderOffers")
     if len(destination_finder_offers) == 0:
-        logger.warning("No destination offers found", extra={"origin_code": origin_code})
+        logger.warning(
+            "No destination offers found", origin_code=origin_code, travel_class=travel_class, trip_type=trip_type
+        )
         return
 
     origin_data = json.get("origin")
@@ -54,12 +58,16 @@ def fetch_and_store_destinations_task(origin_code: str, travel_class=TravelClass
     currency = json.get("currencyInfo", {}).get("currency")
 
     for destination_data in destination_finder_offers:
+        country, _ = Country.objects.update_or_create(
+            code=destination_data.get("countryCode"),
+            defaults={"name": destination_data.get("countryName")},
+        )
         destination, _ = City.objects.update_or_create(
             code=destination_data.get("city"),
             defaults={
                 "name": destination_data.get("cityName"),
                 "region": destination_data.get("cityRegion"),
-                "country": destination_data.get("countryName"),
+                "country": country,
                 "longitude": destination_data.get("cityLongitude"),
                 "latitude": destination_data.get("cityLatitude"),
                 "is_destination": True,

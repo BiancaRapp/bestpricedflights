@@ -15,12 +15,24 @@ class MoneyOutputField(MoneyField):
         return Money(value, "EUR") if value else None
 
 
+class Country(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    code = models.CharField(max_length=3, unique=True)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
 class City(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     code = models.CharField(max_length=3, unique=True)
     name = models.CharField(max_length=255)
     region = models.CharField(max_length=255, blank=True)
-    country = models.CharField(max_length=255, blank=True)
+    country = models.ForeignKey(Country, related_name="city", on_delete=models.SET_NULL, null=True, default=None)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
     is_origin = models.BooleanField(default=False)

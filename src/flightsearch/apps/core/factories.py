@@ -1,6 +1,15 @@
 import factory
 
-from flightsearch.apps.core.models import City, Offer, Trip
+from flightsearch.apps.core.models import City, Country, Offer, Trip
+
+
+class CountryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Country
+        django_get_or_create = ("code",)
+
+    code = factory.Faker("country_code")
+    name = factory.Faker("country")
 
 
 class CityFactory(factory.django.DjangoModelFactory):
@@ -10,8 +19,8 @@ class CityFactory(factory.django.DjangoModelFactory):
 
     code = factory.Faker("lexify", text="???")
     name = factory.Faker("city")
-    region = factory.Faker("country_code")
-    country = factory.Faker("country")
+    region = factory.Faker("lexify", text="??")
+    country = factory.SubFactory(CountryFactory)
 
 
 class TripFactory(factory.django.DjangoModelFactory):
