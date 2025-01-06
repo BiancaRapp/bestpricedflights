@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Startseite{% endblock %}
+
+{% block content %}
+    <h1>Startseite</h1>
+
+    <h2>Liste der Flugangebote der verschiedenen Ziele</h2>
+
+    {% regroup destinations by region as region_list %}
+    {% for region in region_list %}
+        <h3>{{ region.grouper }}</h3>
+
+        <div style="margin-left: 20px">
+            {% regroup region.list by country as country_list %}
+            {% for country in country_list %}
+                <details>
+                    <summary>
+                        {% if country.grouper.code %}
+                            <a href="{% url 'offers_by_destination_country' country.grouper.code %}">{{ country.grouper }}</a>
+                        {% else %}
+                            {{ country.grouper }}
+                        {% endif %}
+                    </summary>
+                    <ul>
+                        {% for city in country.list %}
+                            <li><a href="{% url 'offers_by_destination_city' city.code %}">{{ city }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}

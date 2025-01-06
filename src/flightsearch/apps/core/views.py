@@ -1,10 +1,10 @@
 import structlog
 from django.db.models import F, Min, OuterRef, Prefetch, Q, Subquery
 from django.http import JsonResponse
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from tailslide import Median
 
-from .models import MoneyOutputField, Offer, Trip
+from .models import City, MoneyOutputField, Offer, Trip
 from .tasks import fetch_and_store_destinations_task
 from .utils import TravelClass, TripType, find_destinations
 
@@ -17,6 +17,19 @@ def search_flights(request, origin, travel_class=TravelClass.BUSINESS.value, tri
 
     fetch_and_store_destinations_task.delay(origin_code=origin)
     return JsonResponse(response.json())
+
+
+class HomeView(TemplateView):
+    template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "destinations": City.objects.filter(is_destination=True).order_by("region", "country").distinct(),
+            }
+        )
+        return context
 
 
 class DestinationListView(ListView):
