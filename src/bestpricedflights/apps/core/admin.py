@@ -18,11 +18,10 @@ class CityAdmin(admin.ModelAdmin):
 
 @admin.register(Trip)
 class TripAdmin(admin.ModelAdmin):
-    list_display = ("origin", "destination", "travel_class", "trip_type", "fetched_on", "is_archived")
+    list_display = ("origin", "destination", "travel_class", "trip_type", "fetched_on")
     list_filter = (
         ("origin", admin.RelatedOnlyFieldListFilter),
         ("destination", admin.RelatedOnlyFieldListFilter),
-        "is_archived",
     )
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):

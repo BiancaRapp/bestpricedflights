@@ -4,7 +4,7 @@ from django.utils.timezone import now
 
 from bestpricedflights.celery import app
 
-from .archiver import archive_unavailable_trips_and_offers
+from .archiver import archive_offers_of_unavailable_trips
 from .choices import TravelClass, TripType
 from .lufthansa.destination_finder import find_destinations
 from .lufthansa.offers_parser import parse_response_and_store_offers
@@ -34,4 +34,4 @@ def fetch_and_store_destinations_task(
         return
 
     parse_response_and_store_offers(response.json(), origin_code, today, travel_class, trip_type)
-    archive_unavailable_trips_and_offers(origin_code, today, travel_class, trip_type)
+    archive_offers_of_unavailable_trips(origin_code, today, travel_class, trip_type)

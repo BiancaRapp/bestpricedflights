@@ -54,7 +54,7 @@ class DestinationListView(ListView):
     def get_queryset(self):
         destination_code = self.kwargs.get("destination")
         destination_country_code = self.kwargs.get("destination_country")
-        offer_filter = Q(trip__is_archived=False, is_archived=False)
+        offer_filter = Q(is_archived=False)
         if destination_country_code:
             offer_filter &= Q(trip__destination__country__code=destination_country_code)
         elif destination_code:
@@ -88,7 +88,7 @@ class TripListView(ListView):
     model = Trip
 
     def get_queryset(self):
-        trips = Trip.objects.filter(is_archived=False)
+        trips = Trip.objects.filter(offers__is_archived=False).distinct()
 
         best_price_offers = (
             Offer.objects.annotate(median=Median("trip__offers__price_in_eur", output_field=MoneyOutputField()))
