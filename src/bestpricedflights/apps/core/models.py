@@ -52,7 +52,6 @@ class Trip(models.Model):
     destination = models.ForeignKey(City, related_name="flights_to", on_delete=models.CASCADE)
     travel_class = models.CharField(choices=TravelClass, default=TravelClass.BUSINESS)
     trip_type = models.CharField(choices=TripType, default=TripType.RETURN)
-    is_archived = models.BooleanField(default=False)
 
     class Meta:
         constraints = (
