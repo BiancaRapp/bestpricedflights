@@ -1,7 +1,7 @@
 import requests
 import structlog
 
-from .choices import TravelClass, TripType
+from bestpricedflights.apps.core.choices import TravelClass, TripType
 
 logger = structlog.get_logger(__name__)
 
