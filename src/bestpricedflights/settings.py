@@ -222,6 +222,9 @@ EXCHANGE_BACKEND = "djmoney.contrib.exchange.backends.OpenExchangeRatesBackend"
 OPEN_EXCHANGE_RATES_APP_ID = os.getenv("OPEN_EXCHANGE_RATES_APP_ID")
 BASE_CURRENCY = "USD"
 
+# Fetch destinations
+ORIGIN_CODES = os.getenv("ORIGIN_CODES").split(",")
+
 if DEBUG:
     import socket  # only if you haven't already imported this
 
