@@ -1,0 +1,379 @@
+{
+  "destinationFinderOffers": [
+    {
+      "city": "LAS",
+      "cityName": "Las Vegas",
+      "cityNameUrl": "las+vegas",
+      "cityLatitude": 36.080608,
+      "cityLongitude": -115.143242,
+      "topDeal": false,
+      "cityRegion": "NA",
+      "countryName": "USA",
+      "countryCode": "US",
+      "affinities": [
+        "FI",
+        "NI",
+        "SI"
+      ],
+      "monthOffers": [
+        {
+          "month": 1,
+          "price": 3344.46,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 2,
+          "price": 2842.94,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 3,
+          "price": 2858.03,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 4,
+          "price": 2573.47,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 5,
+          "price": 2910.74,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 6,
+          "price": 2846.43,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 7,
+          "price": 2872.25,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 8,
+          "price": 2863.4,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 9,
+          "price": 3341.43,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 10,
+          "price": 2851.86,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 11,
+          "price": 2857.97,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 12,
+          "price": 2857.97,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        }
+      ]
+    },
+    {
+      "city": "NBO",
+      "cityName": "Nairobi",
+      "cityNameUrl": "nairobi",
+      "cityLatitude": -1.319167,
+      "cityLongitude": 36.927778,
+      "topDeal": false,
+      "cityRegion": "AF",
+      "countryName": "Kenia",
+      "countryCode": "KE",
+      "affinities": [
+        "NA",
+        "SI"
+      ],
+      "monthOffers": [
+        {
+          "month": 1,
+          "price": 2122.58,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 2,
+          "price": 2173.68,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 3,
+          "price": 2097.86,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 4,
+          "price": 2097.9,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 5,
+          "price": 2097.86,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 6,
+          "price": 2124.51,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 7,
+          "price": 2145.35,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 8,
+          "price": 2127.52,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 9,
+          "price": 2097.86,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 10,
+          "price": 2124.51,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 11,
+          "price": 2124.51,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 12,
+          "price": 2124.51,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        }
+      ]
+    },
+    {
+      "city": "EDI",
+      "cityName": "Edinburgh",
+      "cityNameUrl": "edinburgh",
+      "cityLatitude": 55.95,
+      "cityLongitude": -3.3725,
+      "topDeal": false,
+      "cityRegion": "EU",
+      "countryName": "Vereinigtes Königreich",
+      "countryCode": "GB",
+      "affinities": [
+        "FI",
+        "HI",
+        "NI",
+        "SH",
+        "SI"
+      ],
+      "monthOffers": [
+        {
+          "month": 1,
+          "price": 580.91,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 2,
+          "price": 504.3,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 3,
+          "price": 498.57,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 4,
+          "price": 500.98,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 5,
+          "price": 480.26,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 6,
+          "price": 507.98,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 7,
+          "price": 515.95,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 8,
+          "price": 619.32,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 9,
+          "price": 507.92,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 10,
+          "price": 507.92,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 11,
+          "price": 515.95,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 12,
+          "price": 480.34,
+          "numberOfStopovers": 1,
+          "isTenantAirlineOperating": false
+        }
+      ]
+    },
+    {
+      "city": "ZRH",
+      "cityName": "Zürich",
+      "cityNameUrl": "zuerich",
+      "cityLatitude": 47.458333,
+      "cityLongitude": 8.548056,
+      "topDeal": false,
+      "cityRegion": "EU",
+      "countryName": "Schweiz",
+      "countryCode": "CH",
+      "affinities": [
+        "FI",
+        "HI",
+        "NA",
+        "SH",
+        "SI",
+        "SK"
+      ],
+      "monthOffers": [
+        {
+          "month": 1,
+          "price": 364.88,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 2,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 3,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 4,
+          "price": 364.88,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 5,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 6,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 7,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 8,
+          "price": 534.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 9,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 10,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 11,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        },
+        {
+          "month": 12,
+          "price": 364.85,
+          "numberOfStopovers": 0,
+          "isTenantAirlineOperating": false
+        }
+      ]
+    }
+  ],
+  "currencyInfo": {
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "currencySymbolPrefixed": false
+  },
+  "origin": {
+    "cityName": "Stuttgart",
+    "cityNameUrl": "stuttgart",
+    "cityLatitude": 48.689878,
+    "cityLongitude": 9.221964
+  }
+}
