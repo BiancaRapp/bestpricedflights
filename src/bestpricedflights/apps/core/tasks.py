@@ -1,5 +1,6 @@
 import structlog
 from celery import shared_task
+from django.conf import settings
 from django.utils.timezone import now
 
 from bestpricedflights.celery import app
@@ -14,8 +15,7 @@ logger = structlog.get_logger(__name__)
 
 @app.task
 def collect_destinations_for_multiple_origins_task():
-    origin_codes = ("STR", "FRA", "MUC", "AMS", "PAR", "COP", "OSL", "BUD", "IST", "SOF")
-    for origin_code in origin_codes:
+    for origin_code in settings.ORIGIN_CODES:
         fetch_and_store_destinations_task.delay(origin_code=origin_code, travel_class=TravelClass.BUSINESS)
 
 
