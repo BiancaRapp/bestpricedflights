@@ -4,9 +4,9 @@ from django.http import JsonResponse
 from django.views.generic import ListView, TemplateView
 from tailslide import Median
 
+from .lufthansa.destination_finder import TravelClass, TripType, find_destinations
 from .models import City, Country, MoneyOutputField, Offer, Trip
 from .tasks import fetch_and_store_destinations_task
-from .utils import TravelClass, TripType, find_destinations
 
 logger = structlog.get_logger(__name__)
 
