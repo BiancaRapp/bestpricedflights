@@ -1,4 +1,5 @@
 import structlog
+from django.utils.timezone import now
 from djmoney.money import Money
 
 from bestpricedflights.apps.core.business.currency_converter import get_price_in_eur
@@ -7,7 +8,7 @@ from bestpricedflights.apps.core.models import City, Country, Offer, Trip
 logger = structlog.get_logger()
 
 
-def parse_response_and_store_offers(destination_offers_response, origin_code, today, travel_class, trip_type):
+def parse_response_and_store_offers(destination_offers_response, origin_code, travel_class, trip_type):
     destination_finder_offers = destination_offers_response.get("destinationFinderOffers")
     if len(destination_finder_offers) == 0:
         logger.warning(
@@ -25,6 +26,8 @@ def parse_response_and_store_offers(destination_offers_response, origin_code, to
             "is_origin": True,
         },
     )
+
+    fetched_on = now().date()
     currency = destination_offers_response.get("currencyInfo", {}).get("currency")
     for destination_data in destination_finder_offers:
         country, _ = Country.objects.update_or_create(
@@ -47,7 +50,7 @@ def parse_response_and_store_offers(destination_offers_response, origin_code, to
             destination=destination,
             travel_class=travel_class,
             trip_type=trip_type,
-            defaults={"fetched_on": today},
+            defaults={"fetched_on": fetched_on},
         )
         trip.offers.update(is_archived=True)
         for offer_data in destination_data.get("monthOffers"):

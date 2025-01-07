@@ -1,13 +1,16 @@
 import json
+from datetime import timedelta
 from pathlib import Path
 
 from django.test import TestCase
 from django.utils.timezone import now
 from djmoney.money import Money
 
+from bestpricedflights.apps.core.archiver import archive_unavailable_offers
 from bestpricedflights.apps.core.choices import TravelClass, TripType
 from bestpricedflights.apps.core.lufthansa.offers_parser import parse_response_and_store_offers
 from bestpricedflights.apps.core.models import City, Country, Offer, Trip
+from bestpricedflights.apps.core.tests.factories import OfferFactory, TripFactory
 
 
 class LufthansaTestCase(TestCase):
@@ -17,10 +20,7 @@ class LufthansaTestCase(TestCase):
         with file_path.open() as file:
             destination_offers_response = json.load(file)
 
-        today = now().date()
-        parse_response_and_store_offers(
-            destination_offers_response, "STR", today, TravelClass.BUSINESS, TripType.RETURN
-        )
+        parse_response_and_store_offers(destination_offers_response, "STR", TravelClass.BUSINESS, TripType.RETURN)
         self.assertEqual(City.objects.count(), 5)
         self.assertEqual(Country.objects.count(), 4)
         self.assertEqual(Trip.objects.count(), 4)
@@ -58,7 +58,7 @@ class LufthansaTestCase(TestCase):
             destination=destination.first(),
             travel_class=TravelClass.BUSINESS,
             trip_type=TripType.RETURN,
-            fetched_on=today,
+            fetched_on=now().date(),
         )
         self.assertTrue(trip.exists())
         self.assertEqual(trip.count(), 1)
@@ -68,3 +68,35 @@ class LufthansaTestCase(TestCase):
         )
         self.assertTrue(january_offer.exists())
         self.assertEqual(january_offer.count(), 1)
+
+    def test_archive_unavailable_offers(self):
+        unavailable_trip = TripFactory(
+            origin__code="STR", destination__code="SYD", fetched_on=now().date() - timedelta(days=1)
+        )
+        unavailable_offer = OfferFactory(trip=unavailable_trip)
+
+        available_trip = TripFactory(origin__code="STR", destination__code="NBO", fetched_on=now().date())
+        previous_offer = OfferFactory(trip=available_trip)
+        previous_offer.created_at = now() - timedelta(days=1)
+        previous_offer.save()
+        new_offer = OfferFactory(trip=available_trip)
+
+        trip_with_different_travel_class = TripFactory(
+            origin__code="STR",
+            destination__code="NBO",
+            travel_class=TravelClass.FIRST,
+            fetched_on=now().date() - timedelta(days=1),
+        )
+        different_travel_class_offer = OfferFactory(trip=trip_with_different_travel_class)
+
+        archive_unavailable_offers("STR", TravelClass.BUSINESS, TripType.RETURN)
+
+        unavailable_offer.refresh_from_db()
+        previous_offer.refresh_from_db()
+        new_offer.refresh_from_db()
+        different_travel_class_offer.refresh_from_db()
+
+        self.assertTrue(unavailable_offer.is_archived)
+        self.assertTrue(previous_offer.is_archived)
+        self.assertFalse(new_offer.is_archived)
+        self.assertFalse(different_travel_class_offer.is_archived)

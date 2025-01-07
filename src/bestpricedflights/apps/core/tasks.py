@@ -1,11 +1,10 @@
 import structlog
 from celery import shared_task
 from django.conf import settings
-from django.utils.timezone import now
 
 from bestpricedflights.celery import app
 
-from .archiver import archive_offers_of_unavailable_trips
+from .archiver import archive_unavailable_offers
 from .choices import TravelClass, TripType
 from .lufthansa.destination_finder import find_destinations
 from .lufthansa.offers_parser import parse_response_and_store_offers
@@ -23,8 +22,6 @@ def collect_destinations_for_multiple_origins_task():
 def fetch_and_store_destinations_task(
     origin_code: str, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value
 ):
-    today = now().date()
-
     response = find_destinations(origin_code, travel_class, trip_type)
     if not response.ok:
         logger.error(
@@ -33,5 +30,5 @@ def fetch_and_store_destinations_task(
         )
         return
 
-    parse_response_and_store_offers(response.json(), origin_code, today, travel_class, trip_type)
-    archive_offers_of_unavailable_trips(origin_code, today, travel_class, trip_type)
+    parse_response_and_store_offers(response.json(), origin_code, travel_class, trip_type)
+    archive_unavailable_offers(origin_code, travel_class, trip_type)
