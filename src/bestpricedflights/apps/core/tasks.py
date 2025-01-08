@@ -15,7 +15,7 @@ logger = structlog.get_logger(__name__)
 @app.task
 def collect_destinations_for_multiple_origins_task():
     for origin_code in settings.ORIGIN_CODES:
-        fetch_and_store_destinations_task.delay(origin_code=origin_code, travel_class=TravelClass.BUSINESS)
+        fetch_and_store_destinations_task(origin_code=origin_code, travel_class=TravelClass.BUSINESS)
 
 
 @shared_task

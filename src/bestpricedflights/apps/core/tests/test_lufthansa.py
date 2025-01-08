@@ -76,10 +76,9 @@ class LufthansaTestCase(TestCase):
         unavailable_offer = OfferFactory(trip=unavailable_trip)
 
         available_trip = TripFactory(origin__code="STR", destination__code="NBO", fetched_on=now().date())
-        previous_offer = OfferFactory(trip=available_trip)
-        previous_offer.created_at = now() - timedelta(days=1)
-        previous_offer.save()
-        new_offer = OfferFactory(trip=available_trip)
+        previous_offer_1 = OfferFactory(trip=available_trip)
+        previous_offer_2 = OfferFactory(trip=available_trip, month=previous_offer_1.month)
+        new_offer = OfferFactory(trip=available_trip, month=previous_offer_1.month)
 
         trip_with_different_travel_class = TripFactory(
             origin__code="STR",
@@ -92,11 +91,13 @@ class LufthansaTestCase(TestCase):
         archive_unavailable_offers("STR", TravelClass.BUSINESS, TripType.RETURN)
 
         unavailable_offer.refresh_from_db()
-        previous_offer.refresh_from_db()
+        previous_offer_1.refresh_from_db()
+        previous_offer_2.refresh_from_db()
         new_offer.refresh_from_db()
         different_travel_class_offer.refresh_from_db()
 
         self.assertTrue(unavailable_offer.is_archived)
-        self.assertTrue(previous_offer.is_archived)
+        self.assertTrue(previous_offer_1.is_archived)
+        self.assertTrue(previous_offer_2.is_archived)
         self.assertFalse(new_offer.is_archived)
         self.assertFalse(different_travel_class_offer.is_archived)
