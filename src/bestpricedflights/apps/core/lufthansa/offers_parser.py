@@ -9,6 +9,12 @@ logger = structlog.get_logger()
 
 
 def parse_response_and_store_offers(destination_offers_response, origin_code, travel_class, trip_type):
+    logger.debug(
+        "Parse and store offers fetched from API",
+        origin_code=origin_code,
+        travel_class=travel_class,
+        trip_type=trip_type,
+    )
     destination_finder_offers = destination_offers_response.get("destinationFinderOffers")
     if len(destination_finder_offers) == 0:
         logger.warning(
@@ -52,7 +58,6 @@ def parse_response_and_store_offers(destination_offers_response, origin_code, tr
             trip_type=trip_type,
             defaults={"fetched_on": fetched_on},
         )
-        trip.offers.update(is_archived=True)
         for offer_data in destination_data.get("monthOffers"):
             price = Money(offer_data.get("price"), currency=currency)
             price_in_eur = get_price_in_eur(price)
