@@ -1,6 +1,6 @@
 import factory
 
-from flightsearch.apps.core.models import City, Country, Offer, Trip
+from bestpricedflights.apps.core.models import City, Country, Offer, Trip
 
 
 class CountryFactory(factory.django.DjangoModelFactory):

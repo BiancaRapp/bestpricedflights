@@ -1,4 +1,4 @@
-# best price search
+# best priced flights
 
 ## Project description
 

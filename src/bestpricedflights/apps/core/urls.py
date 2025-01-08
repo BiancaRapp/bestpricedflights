@@ -1,6 +1,6 @@
 from django.urls import path
 
-from flightsearch.apps.core.views import search_flights
+from bestpricedflights.apps.core.views import search_flights
 
 from .views import DestinationListView, HomeView, TripListView
 

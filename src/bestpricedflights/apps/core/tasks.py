@@ -6,7 +6,7 @@ from djmoney.contrib.exchange.exceptions import MissingRate
 from djmoney.contrib.exchange.models import convert_money
 from djmoney.money import Money
 
-from flightsearch.celery import app
+from bestpricedflights.celery import app
 
 from .choices import TravelClass, TripType
 from .models import City, Country, Offer, Trip

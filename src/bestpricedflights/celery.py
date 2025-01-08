@@ -9,9 +9,9 @@ from django_structlog.celery.steps import DjangoStructLogInitStep
 
 logger = structlog.get_logger(__name__)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "flightsearch.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bestpricedflights.settings")
 
-app = Celery("flightsearch")
+app = Celery("bestpricedflights")
 
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.steps["worker"].add(DjangoStructLogInitStep)
@@ -29,7 +29,7 @@ def setup_periodic_tasks(sender, **kwargs):  # noqa: ARG001
 
 @app.task
 def collect_destinations_for_multiple_origins_task():
-    from flightsearch.apps.core.tasks import collect_destinations_for_multiple_origins_task
+    from bestpricedflights.apps.core.tasks import collect_destinations_for_multiple_origins_task
 
     collect_destinations_for_multiple_origins_task()
 
