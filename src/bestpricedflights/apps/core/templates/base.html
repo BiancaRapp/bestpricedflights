@@ -47,6 +47,20 @@
 
 <body>
 <div id="content" class="container">
+    <div class="d-flex justify-content-end gap-2 mt-2">
+        {% block context_buttons %}
+            <a class="btn btn-dark" href="{% url 'home' %}">Home Page</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-dark mt-0" type="submit">Log Out</button>
+                </form>
+            {% else %}
+                <a class="btn btn-dark" href="{% url 'login' %}">Log In</a>
+            {% endif %}
+        {% endblock %}
+    </div>
+
     {% block content %}{% endblock %}
 </div>
 </body>
