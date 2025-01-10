@@ -4,9 +4,11 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'vendor/data_tables/datatables-2.1.8.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-5.3.3-dist/css/bootstrap.css' %}"/>
 
     <script src="{% static 'vendor/jquery/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'vendor/data_tables/datatables-2.1.8.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap-5.3.3-dist/js/bootstrap.min.js' %}"></script>
     <script>
         addEventListener("DOMContentLoaded", () => {
             $('table.display').DataTable({
@@ -44,7 +46,7 @@
 </head>
 
 <body>
-<div id="content">
+<div id="content" class="container">
     {% block content %}{% endblock %}
 </div>
 </body>
