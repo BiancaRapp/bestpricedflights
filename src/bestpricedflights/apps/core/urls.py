@@ -5,7 +5,7 @@ from bestpricedflights.apps.core.views import search_flights
 from .views import DestinationListView, HomeView, TripListView
 
 urlpatterns = [
-    path("", HomeView.as_view()),
+    path("", HomeView.as_view(), name="home"),
     path("search/<str:origin>/<str:travel_class>/<str:trip_type>", search_flights),
     path("search/<str:origin>/<str:travel_class>/", search_flights),
     path("search/<str:origin>/", search_flights),
@@ -15,5 +15,5 @@ urlpatterns = [
         DestinationListView.as_view(),
         name="offers_by_destination_country",
     ),
-    path("list/trips/", TripListView.as_view()),
+    path("list/trips/", TripListView.as_view(), name="trip_list"),
 ]

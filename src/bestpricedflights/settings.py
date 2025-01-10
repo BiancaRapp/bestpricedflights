@@ -106,7 +106,10 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 
 # Authentication
 AUTH_USER_MODEL = "user.User"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

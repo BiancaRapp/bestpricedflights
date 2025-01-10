@@ -1,4 +1,7 @@
 import structlog
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import F, Min, OuterRef, Prefetch, Q, Subquery
 from django.http import JsonResponse
 from django.views.generic import ListView, TemplateView
@@ -11,7 +14,11 @@ from .tasks import fetch_and_store_destinations_task
 logger = structlog.get_logger(__name__)
 
 
-def search_flights(request, origin, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value):  # noqa: ARG001
+@login_required
+def search_flights(request, origin, travel_class=TravelClass.BUSINESS.value, trip_type=TripType.RETURN.value):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     response = find_destinations(origin, travel_class, trip_type)
     response.raise_for_status()
 
@@ -32,7 +39,7 @@ class HomeView(TemplateView):
         return context
 
 
-class DestinationListView(ListView):
+class DestinationListView(LoginRequiredMixin, ListView):
     template_name = "destination_list.html"
     model = Offer
 
@@ -83,7 +90,7 @@ class DestinationListView(ListView):
         )
 
 
-class TripListView(ListView):
+class TripListView(LoginRequiredMixin, ListView):
     template_name = "trip_list.html"
     model = Trip
 
