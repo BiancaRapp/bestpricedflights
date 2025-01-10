@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_structlog",
     "colorfield",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "debug_toolbar",
     "djmoney",
     "djmoney.contrib.exchange",
@@ -94,6 +96,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "bestpricedflights.wsgi.application"
+
+
+# Crispy
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 
 # Authentication
 AUTH_USER_MODEL = "user.User"

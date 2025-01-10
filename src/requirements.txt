@@ -2,6 +2,7 @@ celery[redis]~=5.4.0
 django~=5.1.4
 django-admin-interface~=0.29.2
 django-celery-beat~=2.7.0
+crispy-bootstrap5~=2024.10
 django-debug-toolbar~=4.4.6
 django-money[exchange]~=3.5.3
 django-structlog[celery]~=9.0.0
