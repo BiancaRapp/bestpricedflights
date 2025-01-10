@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "djmoney",
     "djmoney.contrib.exchange",
     "bestpricedflights.apps.core",
+    "bestpricedflights.apps.user",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
