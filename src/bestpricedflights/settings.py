@@ -95,6 +95,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "bestpricedflights.wsgi.application"
 
+# Authentication
+AUTH_USER_MODEL = "user.User"
+LOGIN_REDIRECT_URL = "/"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
