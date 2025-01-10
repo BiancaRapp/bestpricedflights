@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block context_buttons %}
+    <a class="btn btn-dark" href="{% url 'home' %}">Home Page</a>
+{% endblock %}
+
+{% block content %}
+<h2>Sign up</h2>
+{% crispy form %}
+{% endblock %}
