@@ -33,6 +33,7 @@ class CustomAuthenticationForm(AuthenticationForm):
                 Submit("login", "Log In"),
             ),
             HTML('<p>No account yet? <a href="{% url "signup" %}">Sign Up</a></p>'),
+            HTML('<p>Forgot your password? <a href="{% url "password_reset" %}">Reset Password</a></p>'),
         )
 
 

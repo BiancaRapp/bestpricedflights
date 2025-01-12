@@ -54,3 +54,12 @@ services:
     image: redis:7.0
     ports:
       - "6379:6379"
+
+  smtp:
+    image: gessnerfl/fake-smtp-server:2.4.1
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    expose:
+      - 8025
