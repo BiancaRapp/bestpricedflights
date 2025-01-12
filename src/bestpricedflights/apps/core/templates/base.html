@@ -53,6 +53,7 @@
             {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
+                    <a class="btn btn-dark" href="{% url 'edit_profile' %}">Profile</a>
                     <button class="btn btn-dark mt-0" type="submit">Log Out</button>
                 </form>
             {% else %}
