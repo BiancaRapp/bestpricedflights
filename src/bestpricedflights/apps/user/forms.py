@@ -11,7 +11,7 @@ from bestpricedflights.apps.user.models import User
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = (*UserCreationForm.Meta.fields, "preferred_origin_city")
+        fields = (*UserCreationForm.Meta.fields, "email", "preferred_origin_city")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
