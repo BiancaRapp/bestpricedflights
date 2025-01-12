@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 from bestpricedflights.apps.core.models import City
 
@@ -12,3 +13,5 @@ class User(AbstractUser):
         City, related_name="preferred_by_users", on_delete=models.SET_NULL, null=True, blank=True
     )
 
+    def get_absolute_url(self):
+        return reverse("edit_profile")
