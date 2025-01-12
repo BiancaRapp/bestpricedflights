@@ -67,3 +67,18 @@ docker compose exec app django-admin test
 
 To be able to run the program properly, you need to provide the env `OPEN_EXCHANGE_RATES_APP_ID`. 
 You can get your own app id from <https://openexchangerates.org>.
+
+
+## Create and restore database dump
+
+### Create new database dump
+```shell
+docker compose exec db sh -c 'pg_dump -Fc postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB > /tmp/dump.pgsql'
+docker compose cp db:/tmp/dump.pgsql dumps/bestpricedflights-database-dump.pgsql
+```
+
+### Restore database dump
+```shell
+docker compose cp dumps/bestpricedflights-database-dump.pgsql db:/tmp/dump.pgsql
+docker compose exec db sh -c 'PGPASSWORD=$POSTGRES_PASSWORD pg_restore --clean --verbose -d postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB /tmp/dump.pgsql'
+```
