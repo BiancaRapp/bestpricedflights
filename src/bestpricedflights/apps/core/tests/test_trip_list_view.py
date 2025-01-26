@@ -2,17 +2,21 @@ import factory
 from django.test import Client, TestCase
 from django.utils.timezone import now
 
-from .factories import OfferFactory, TripFactory
+from bestpricedflights.apps.core.tests.factories import OfferFactory, TripFactory
+from bestpricedflights.apps.user.tests.factories import UserFactory
 
 
 class TripListTestCase(TestCase):
     def test_trip_list(self):
+        user = UserFactory()
+        c = Client()
+        c.force_login(user)
+
         my_trip = TripFactory(fetched_on=now().date())
         prices = [100, 200, 300, 400]
         offers = OfferFactory.create_batch(len(prices), trip=my_trip, price_in_eur=factory.Iterator(prices))
         OfferFactory.create(trip=my_trip, price_in_eur=150, is_archived=True)
 
-        c = Client()
         response = c.get("/list/trips/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "trip_list.html")
