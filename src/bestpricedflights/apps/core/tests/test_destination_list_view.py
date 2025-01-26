@@ -4,12 +4,16 @@ from django.utils.timezone import now
 from moneyed import Money
 
 from bestpricedflights.apps.core.choices import Month, TravelClass
-
-from .factories import OfferFactory, TripFactory
+from bestpricedflights.apps.core.tests.factories import OfferFactory, TripFactory
+from bestpricedflights.apps.user.tests.factories import UserFactory
 
 
 class DestinationListTestCase(TestCase):
     def test_destination_list(self):
+        user = UserFactory()
+        c = Client()
+        c.force_login(user)
+
         trip1 = TripFactory(fetched_on=now().date())
         trip2 = TripFactory(fetched_on=now().date(), destination=trip1.destination)
         prices = [100, 200, 300, 400, 500]
@@ -39,7 +43,6 @@ class DestinationListTestCase(TestCase):
             month=Month.AUGUST,
         )
 
-        c = Client()
         response = c.get(f"/list/destinations/{trip1.destination.code}")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "destination_list.html")
